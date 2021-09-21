@@ -49,7 +49,6 @@ public class Decoder {
 		
 		
 		System.out.println(decode (strBuilder.toString()));
-		
 	}
 	
 	
@@ -68,7 +67,7 @@ public class Decoder {
 		 * parses String into proper size of each byte
 		 */
 		ArrayList<Integer> parsedInts = new ArrayList<Integer>();
-		for (int i = 0; i < toBeDecoded.length()-sizeOfByte; i+=sizeOfByte) {
+		for (int i = 0; i < toBeDecoded.length()-8; i+=sizeOfByte) {
 			String toBeChanged = toBeDecoded.substring(i,i+sizeOfByte);
 			parsedInts.add(binStringToInteger(toBeChanged));
 		}

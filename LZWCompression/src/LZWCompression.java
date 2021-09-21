@@ -63,7 +63,13 @@ public class LZWCompression {
 			outputIntegers.add(table.get(c));
 		}
 	}
-	
+	/**
+	 * method takes a decimal number and turns it to binary
+	 * 
+	 * @param num is the decimal number to be converted
+	 * @param byteSize is the length of the augmented byte
+	 * @return the decimal number in binary form with length of byteSize
+	 */
 	public String formatBinary (int num, int byteSize) {
 		String binaryVersion = Integer.toBinaryString(num);
 		StringBuilder bob = new StringBuilder();
@@ -73,7 +79,12 @@ public class LZWCompression {
 		}
 		return bob.toString();
 	}
-	
+	/**
+	 * converts binary number stores as String to decimal int
+	 * 
+	 * @param input is the binary number stored as a String
+	 * @return the inputed number in decimal number form
+	 */
 	public static int binStringToInteger (String input){
 
     	String binaryString = input;
@@ -98,18 +109,18 @@ public class LZWCompression {
 			outputString.append(result);
 		}
 		
-		int numOfBytesToBeWritten = outputString.length() / byteSize;
-		byte[] binaryToOutput = new byte[numOfBytesToBeWritten+1];
+		int numOfBytesToBeWritten = (outputString.length() / 8) + 1;
+		byte[] binaryToOutput = new byte[numOfBytesToBeWritten];
 		int counter = 0;
 		for (int i = 0; i < outputString.length()-8; i+=8) {
-			binaryToOutput [counter] = (byte)Integer.parseInt(outputString.substring(i, i+8),2);
+			binaryToOutput [counter] = (byte)(binStringToInteger(outputString.substring(i, i+8)));
 			counter++;
 		}
-		StringBuilder endOfString = new StringBuilder (outputString.substring(numOfBytesToBeWritten*9));
-		while (endOfString.length()< byteSize) {
+		StringBuilder endOfString = new StringBuilder (outputString.substring((numOfBytesToBeWritten-1)*8));
+		while (endOfString.length()< 8) {
 			endOfString.append("0");
 		}
-		binaryToOutput [numOfBytesToBeWritten] = (byte)binStringToInteger(endOfString.toString());
+		binaryToOutput [numOfBytesToBeWritten-1] = (byte)binStringToInteger(endOfString.toString());
 		
 		try {
             Files.write(path, binaryToOutput);    // Java 7+ only
