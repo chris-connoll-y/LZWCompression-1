@@ -78,6 +78,9 @@ public class Decoder {
 		for (int i = 0; i < parsedInts.size()-1; i++) {
 			current = dictionary.get(parsedInts.get(i));
 			next= dictionary.get(parsedInts.get(i+1));
+			if (next == null) {
+				next = current+current.charAt (0);
+			}
 			String firstOfNext = next.charAt(0) + "";
 			if (!dictionary.containsValue(current + firstOfNext)) {
 				dictionary.put(sizeOfDictionary, current + firstOfNext);
